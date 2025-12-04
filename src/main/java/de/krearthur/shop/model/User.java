@@ -1,4 +1,4 @@
-package de.krearthur.shop;
+package de.krearthur.shop.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,5 +19,8 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
+    private String email;
+    private String phone;
+    private UserRole role = UserRole.CUSTOMER;
 
 }

@@ -1,9 +1,10 @@
-package de.krearthur.shop;
+package de.krearthur.shop.service;
 
+import de.krearthur.shop.model.User;
+import de.krearthur.shop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     //private List<User> userList = new ArrayList<>();
-    private Long nextId = 1L;
+    //private Long nextId = 1L;
 
     public List<User> fetchAllUsers() {
         return userRepository.findAll();
@@ -30,11 +31,11 @@ public class UserService {
         //user.setId(nextId++);
         //userList.add(user);
         //return user.getId();
-        userRepository.save(user);
+        return userRepository.save(user).getId();
     }
 
     public boolean updateUser(Long id, User updateData) {
-        return userList.stream()
+        /*return userList.stream()
                 .filter(user -> user.getId().equals(id))
                 .findFirst()
                 .map(existingUser -> {
@@ -43,5 +44,13 @@ public class UserService {
                     return true;
                 })
                 .orElse(false);
+         */
+        return userRepository.findById(id)
+                .map(existingUser -> {
+                    existingUser.setFirstName(updateData.getFirstName());
+                    existingUser.setLastName(updateData.getLastName());
+                    userRepository.save(existingUser);
+                    return true;
+                }).orElse(false);
     }
 }

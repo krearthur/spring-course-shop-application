@@ -1,5 +1,7 @@
-package de.krearthur.shop;
+package de.krearthur.shop.controller;
 
+import de.krearthur.shop.service.UserService;
+import de.krearthur.shop.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
