@@ -1,6 +1,7 @@
 package de.krearthur.shop.service;
 
 import de.krearthur.shop.dto.CartItemRequest;
+import de.krearthur.shop.dto.CartItemResponse;
 import de.krearthur.shop.model.CartItem;
 import de.krearthur.shop.model.Product;
 import de.krearthur.shop.model.User;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -62,7 +64,6 @@ public class CartService {
         Optional<Product> productOpt = productRepository.findById(productId);
         Optional<User> userOpt = userRepository.findById(Long.valueOf(userId));
 
-
         if (productOpt.isPresent() && userOpt.isPresent()) {
             CartItem cartItem = cartItemRepository.findByUserAndProduct(userOpt.get(), productOpt.get());
             if (cartItem == null) {
@@ -74,5 +75,12 @@ public class CartService {
         }
 
         return false;
+    }
+
+    public List<CartItem> getUsersCart(String userId) {
+
+        return userRepository.findById(Long.valueOf(userId))
+                .map(cartItemRepository::findByUser)
+                .orElseGet(List::of);
     }
 }
