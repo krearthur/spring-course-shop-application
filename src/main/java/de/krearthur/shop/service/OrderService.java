@@ -9,10 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +36,7 @@ public class OrderService {
 
         // Calculate total price
         BigDecimal totalPrice = cartItems.stream()
-                .map(item ->
-                        item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .map(CartItem::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         // Create order
@@ -52,7 +49,7 @@ public class OrderService {
                         null,
                         item.getProduct(),
                         item.getQuantity(),
-                        item.getPrice(),
+                        item.getTotalPrice(),
                         order
                 ))
                 .toList();

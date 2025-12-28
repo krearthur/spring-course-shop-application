@@ -1,7 +1,6 @@
 package de.krearthur.shop.service;
 
 import de.krearthur.shop.dto.CartItemRequest;
-import de.krearthur.shop.dto.CartItemResponse;
 import de.krearthur.shop.model.CartItem;
 import de.krearthur.shop.model.Product;
 import de.krearthur.shop.model.User;
@@ -46,7 +45,7 @@ public class CartService {
         if (existingCartItem != null) {
             // Update the quantity
             existingCartItem.setQuantity(existingCartItem.getQuantity() + request.getQuantity());
-            existingCartItem.setPrice(product.getPrice().multiply(BigDecimal.valueOf(existingCartItem.getQuantity())));
+            existingCartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(existingCartItem.getQuantity())));
             cartItemRepository.save(existingCartItem);
         } else {
             // Create new cart item
@@ -54,7 +53,7 @@ public class CartService {
             cartItem.setProduct(product);
             cartItem.setUser(user);
             cartItem.setQuantity(request.getQuantity());
-            cartItem.setPrice(product.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())));
+            cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())));
             cartItemRepository.save(cartItem);
         }
         return true;
